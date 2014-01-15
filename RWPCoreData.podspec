@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "RWPCoreData"
-  s.version      = "0.0.1"
+  s.version      = "0.8.0"
   s.summary      = "Boilerplate code for Core Data projects"
 
   s.description  = <<-DESC
@@ -21,12 +21,11 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '7.0'
 
-  s.source       = { :git => "http://github.com/rpowelll/RWPCoreData.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/rpowelll/RWPCoreData.git", :tag => "0.8.0" }
 
   s.source_files  = 'Classes', 'Classes/**/*.{h,m}'
  
   s.framework  = 'CoreData'
-  # s.frameworks = 'SomeFramework', 'AnotherFramework'
 
   s.requires_arc = true
 end

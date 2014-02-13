@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "RWPCoreData"
-  s.version      = "0.8.0"
+  s.version      = "0.8.1"
   s.summary      = "Boilerplate code for Core Data projects"
 
   s.description  = <<-DESC
@@ -17,11 +17,11 @@ Pod::Spec.new do |s|
   s.license      = {:type => 'MIT', :file => "LICENSE"}
 
   s.author             = { "Rhys Powell" => "rhys@rpowell.me" }
-  s.social_media_url = "http://twitter.com/LividOcelot"
+  s.social_media_url = "http://twitter.com/powellelogram"
 
   s.platform     = :ios, '7.0'
 
-  s.source       = { :git => "https://github.com/rpowelll/RWPCoreData.git", :tag => "0.8.0" }
+  s.source       = { :git => "https://github.com/rpowelll/RWPCoreData.git", :tag => "0.8.1" }
 
   s.source_files  = 'Classes', 'Classes/**/*.{h,m}'
  

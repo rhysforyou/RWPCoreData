@@ -152,7 +152,11 @@ static NSURL *__persistentStoreURL;
 
 - (void)save
 {
-    [self.managedObjectContext save:nil];
+	NSError *error = nil;
+
+	if (![self.managedObjectContext save:&error]) {
+		NSLog(@"[RWPCoreData] Unable to save data: %@", error);
+	}
 }
 
 @end

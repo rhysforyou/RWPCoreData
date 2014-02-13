@@ -39,6 +39,10 @@
  Subclasses should also let their superclass be responsible for the `createdAt`,
  and `updatedAt` properties by not redefining them and calling the superclass's
  implementation of `unpackDictionary` before doing any of its own unpacking.
+ 
+ Finally, each model must have a primary key. By default this will be the `remoteID`
+ property, but if you want to use another name just override `remoteIDKeyPath`. You'll
+ be responsible for setting this property's value.
  */
 
 #import "RWPManagedObject.h"

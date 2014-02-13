@@ -18,7 +18,7 @@
  and `shouldUnpackDictionary:`. The purpose of these methods is to map the data retrieved
  from the remote store to the class's own representation.
 
- Subclasses should also let their superclass be responsible for the `remoteID`, `createdAt`,
+ Subclasses should also let their superclass be responsible for the `createdAt`,
  and `updatedAt` properties by not redefining them and calling the superclass's
  implementation of `unpackDictionary` before doing any of its own unpacking.
  */
@@ -27,9 +27,6 @@
 
 @interface RWPRemoteManagedObject : RWPManagedObject
 
-/** The ID assigned to this object by the remote store */
-@property (nonatomic, strong) NSNumber *remoteID;
-
 /** The date this object was created at */
 @property (nonatomic, strong) NSDate *createdAt;
 
@@ -37,6 +34,8 @@
 @property (nonatomic, strong) NSDate *updatedAt;
 
 /** @name Instantiate an Object with a Remote ID */
+
++ (NSString *)remoteIDKeyPath;
 
 /** Get or create an object for a given remote ID
 
@@ -47,7 +46,7 @@
 
  @return an object of this class with the given remote ID
  */
-+ (instancetype)objectWithRemoteID:(NSNumber *)remoteID;
++ (instancetype)objectWithRemoteID:(id)remoteID;
 
 /** Get or create an object for a given remote ID
 
@@ -59,7 +58,7 @@
 
  @return an object of this class with the given remote ID
  */
-+ (instancetype)objectWithRemoteID:(NSNumber *)remoteID context:(NSManagedObjectContext *)context;
++ (instancetype)objectWithRemoteID:(id)remoteID context:(NSManagedObjectContext *)context;
 
 /** Get an object for a given remote ID
 
@@ -70,7 +69,7 @@
 
  @return an object of this class with the given remote ID
  */
-+ (instancetype)existingObjectWithRemoteID:(NSNumber *)remoteID;
++ (instancetype)existingObjectWithRemoteID:(id)remoteID;
 
 /** Get an object for a given remote ID
 
@@ -82,7 +81,7 @@
 
  @return an existing object of this class with the given remote ID
  */
-+ (instancetype)existingObjectWithRemoteID:(NSNumber *)remoteID context:(NSManagedObjectContext *)context;
++ (instancetype)existingObjectWithRemoteID:(id)remoteID context:(NSManagedObjectContext *)context;
 
 /** @name Instantiate an Object with a Dictionary */
 

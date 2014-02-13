@@ -10,33 +10,37 @@
 
 @implementation RWPRemoteManagedObject
 
-@dynamic remoteID;
 @dynamic createdAt;
 @dynamic updatedAt;
 
-+ (instancetype)objectWithRemoteID:(NSNumber *)remoteID
++ (NSString *)remoteIDKeyPath
+{
+	return @"remoteID";
+}
+
++ (instancetype)objectWithRemoteID:(id)remoteID
 {
     return [self objectWithRemoteID:remoteID context:nil];
 }
 
-+ (instancetype)objectWithRemoteID:(NSNumber *)remoteID context:(NSManagedObjectContext *)context
++ (instancetype)objectWithRemoteID:(id)remoteID context:(NSManagedObjectContext *)context
 {
     RWPRemoteManagedObject *object = [self existingObjectWithRemoteID:remoteID context:context];
 
     if (object == nil) {
         object = [[self alloc] initWithContext:context];
-        object.remoteID = remoteID;
+		[object setValue:remoteID forKeyPath:[self remoteIDKeyPath]];
     }
 
     return object;
 }
 
-+ (instancetype)existingObjectWithRemoteID:(NSNumber *)remoteID
++ (instancetype)existingObjectWithRemoteID:(id)remoteID
 {
     return [self existingObjectWithRemoteID:remoteID context:nil];
 }
 
-+ (instancetype)existingObjectWithRemoteID:(NSNumber *)remoteID context:(NSManagedObjectContext *)context
++ (instancetype)existingObjectWithRemoteID:(id)remoteID context:(NSManagedObjectContext *)context
 {
     if (context == nil) {
         context = [self mainContext];
@@ -44,7 +48,10 @@
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [self entityWithContext:context];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"remoteID = %@", remoteID];
+
+	// I spent way too long working out why using `@"%@ = %@"` as the format here didn't work.
+	// Turns out if you want to use a key path in a format string, you use `%K`.
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"%K = %@", [self remoteIDKeyPath], remoteID];
     fetchRequest.fetchLimit = 1;
 
     NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
@@ -67,9 +74,9 @@
         return nil;
     }
 
-    NSNumber *remoteID = dictionary[@"id"];
+    id remoteID = dictionary[@"id"];
 
-    if (remoteID == nil || [remoteID integerValue] == 0) {
+    if (remoteID == nil) {
         return nil;
     }
 
@@ -97,9 +104,9 @@
         return nil;
     }
 
-    NSNumber *remoteID = dictionary[@"id"];
+    id remoteID = dictionary[@"id"];
 
-    if (remoteID == nil || [remoteID integerValue] == 0) {
+    if (remoteID == nil) {
         return nil;
     }
 
@@ -123,7 +130,6 @@
 
 - (void)unpackDictionary:(NSDictionary *)dictionary
 {
-    self.remoteID = dictionary[@"id"];
     self.createdAt = [[self class] parseDate:dictionary[@"created_at"]];
     self.updatedAt = [[self class] parseDate:dictionary[@"updated_at"]];
 }
